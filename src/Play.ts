@@ -2,23 +2,18 @@ import Phaser from "phaser";
 import Player from "./entities/Player";
 
 class Play extends Phaser.Scene {
-  private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private player: Player | undefined;
 
   constructor() {
     super("PlayScene");
-
     this.player = undefined;
   }
 
   create() {
     const map = this.createMap();
-
     const layers = this.createLayers(map);
     this.player = this.createPlayer();
-
     this.physics.add.collider(this.player, layers.collidables);
-    this.cursors = this.input.keyboard?.createCursorKeys();
   }
 
   createMap() {
@@ -28,28 +23,17 @@ class Play extends Phaser.Scene {
   }
   createLayers(map: Phaser.Tilemaps.Tilemap) {
     const tileset = map.getTileset("Tiles")!;
-
     const platforms = map.createLayer("platforms", tileset, 0, 0);
-
     const decorations = map.createLayer("decorations", tileset, 0, 0);
     const collidables = map.createLayer("collidables", tileset, 0, 0)!;
     collidables.setCollision([14], true);
     return { decorations, platforms, collidables };
   }
   createPlayer() {
-    const player = new Player(this, 100, 200);
-    return player;
+    return new Player(this, 100, 200);
   }
 
-  update(time: number, delta: number): void {
-    const { left, right } = this.cursors;
-
-    if (left.isDown) {
-      this.player?.setVelocityX(-this.player.speed);
-    } else if (right.isDown) {
-      this.player?.setVelocityX(this.player.speed);
-    } else this.player?.setVelocityX(0);
-  }
+  update(time: number, delta: number): void {}
 }
 
 export default Play;

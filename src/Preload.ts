@@ -7,9 +7,14 @@ class Preload extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON("map", "/level1.tmj");
     this.load.image("tiles1", "/assets/Assets/Tiles.png");
-    this.load.spritesheet("player", "/assets/Character/Idle/Idle-Sheet.png", {
+    this.load.spritesheet("idle", "/assets/Character/Idle/Idle-Sheet.png", {
       frameWidth: 64,
       frameHeight: 64,
+    });
+
+    this.load.spritesheet("run", "/assets/Character/Run/Run-Sheet.png", {
+      frameWidth: 80,
+      frameHeight: 80,
     });
   }
 
