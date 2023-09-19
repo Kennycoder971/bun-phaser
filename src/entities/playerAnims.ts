@@ -18,4 +18,23 @@ export default (anims: Phaser.Animations.AnimationManager) => {
     frameRate: 10,
     repeat: -1,
   });
+
+  anims.create({
+    key: "jump",
+    frames: anims.generateFrameNumbers("jump", {
+      start: 0,
+      end: 5,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+  anims.create({
+    key: "jumpEnd",
+    frames: anims.generateFrameNumbers("jump", {
+      start: 6,
+      end: 14,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
 };

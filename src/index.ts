@@ -3,8 +3,12 @@ import "phaser";
 import PlayScene from "./Play";
 import Preload from "./Preload";
 
+const MAP_WIDTH = 1600;
+const WIDTH = document.body.offsetWidth;
+
 const SHARED_CONFIG = {
-  width: 1280,
+  mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0,
+  width: WIDTH,
   height: 600,
 };
 

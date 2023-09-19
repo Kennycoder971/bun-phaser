@@ -14,8 +14,17 @@ class Preload extends Phaser.Scene {
 
     this.load.spritesheet("run", "/assets/Character/Run/Run-Sheet.png", {
       frameWidth: 80,
-      frameHeight: 80,
+      frameHeight: 64,
     });
+
+    this.load.spritesheet(
+      "jump",
+      "/assets/Character/Jump-All/Jump-All-Sheet.png",
+      {
+        frameWidth: 64,
+        frameHeight: 64,
+      }
+    );
   }
 
   create() {
