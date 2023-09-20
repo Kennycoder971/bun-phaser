@@ -1,10 +1,15 @@
 import Phaser from "phaser";
 import Player from "./entities/Player";
 
+type playerZones = {
+  start: Phaser.Types.Tilemaps.TiledObject | undefined;
+  end: Phaser.Types.Tilemaps.TiledObject | undefined;
+};
+
 class Play extends Phaser.Scene {
   private player: Player | undefined;
 
-  constructor() {
+  constructor(public config: any) {
     super("PlayScene");
     this.player = undefined;
   }
@@ -12,8 +17,10 @@ class Play extends Phaser.Scene {
   create() {
     const map = this.createMap();
     const layers = this.createLayers(map);
-    this.player = this.createPlayer();
+    const playerZones = this.getPlayerZones(layers.playerZones!);
+    this.player = this.createPlayer(playerZones);
     this.player.addCollider(layers.collidables);
+    this.setupFolllowupCameraOn(this.player);
   }
 
   createMap() {
@@ -27,13 +34,30 @@ class Play extends Phaser.Scene {
     const decorations = map.createLayer("decorations", tileset, 0, 0);
     const collidables = map.createLayer("collidables", tileset, 0, 0)!;
     collidables.setCollision([14], true);
-    return { decorations, platforms, collidables };
+    const playerZones = map.getObjectLayer("player_zones");
+
+    return { decorations, platforms, collidables, playerZones };
   }
-  createPlayer() {
-    return new Player(this, 100, 200);
+  createPlayer({ start, end }: playerZones) {
+    const x = start!.x || 200;
+    const y = start!.y || 200;
+    return new Player(this, x, y);
   }
 
-  update(time: number, delta: number): void {}
+  setupFolllowupCameraOn(player: Player) {
+    const { height, width, mapOffset } = this.config;
+    this.physics.world.setBounds(0, 0, width + mapOffset, height);
+    this.cameras.main.setBounds(0, 0, width + mapOffset, height).setZoom(1.5);
+    this.cameras.main.startFollow(player);
+  }
+
+  getPlayerZones(playerZonesLayer: Phaser.Tilemaps.ObjectLayer) {
+    const playerZones = playerZonesLayer.objects;
+    return {
+      start: playerZones.find((zone) => zone.name === "start_zone"),
+      end: playerZones.find((zone) => zone.name === "end_zone"),
+    };
+  }
 }
 
 export default Play;

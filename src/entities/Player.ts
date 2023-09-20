@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import initAnimations from "./playerAnims";
+
 class Player extends Phaser.Physics.Arcade.Sprite {
   public speed = 220;
   public jumpCount = 0;
@@ -77,7 +78,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       (isSpaceJustDown || isUpJustDown) &&
       (onFloor || this.jumpCount < this.consecutiveJump)
     ) {
-      this.setVelocityY(-this.speed);
+      this.setVelocityY(-this.speed * 1.3);
       this.jumpCount++;
     }
 
